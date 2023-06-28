@@ -26,6 +26,7 @@ function launchModal() {
 }
 
 // Fermeture du formulaire avec la croix ".close"
+
 FormCloser.addEventListener("click", () => {
   modalbg.style.display = "none";
 });
