@@ -88,5 +88,83 @@ FormCloser.addEventListener("click", () => {
 // });
 
 //=======================================================
-// Retry alone
+// Retry alone 4e essai
 //=======================================================
+const inputs = document.querySelectorAll(
+  "input.text-control, input.checkbox-input"
+);
+let formValid = true;
+inputs.forEach((input) => {
+  let emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+  let birthdateRegex =
+    /(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.](19|20)\d\d/;
+  let numberRegex = /^\d+(\.\d+)?$/;
+  input.addEventListener("input", (e) => {
+    console.log(`Dans ${input.id}, il est écrit ${input.value}`);
+    if (input.id === "first" && input.value.length < 3) {
+      formValid = false;
+      console.log(`Veuillez renseigner au minimum 3 caractères dans prénom`);
+    }
+    if (input.id === "last" && input.value.length < 3) {
+      formValid = false;
+      console.log(`Veuillez renseigner au minimum 3 caractères dans nom`);
+    }
+    if (input.id === "email" && !emailRegex.test(input.value)) {
+      formValid = false;
+      console.log(`Attention votre adresse email n'est pas valide`);
+    }
+    if (input.id === birthdate && birthdateRegex.test(input.value)) {
+      formValid = false;
+      console.log("Attention cette date n'est pas valide");
+    }
+    if (input.id === quantity && numberRegex.test(input.value)) {
+      formValid = false;
+      console.log("Veuillez ne renseigner uniquement des chiffres de 0 a 99");
+    }
+  });
+});
+
+const controlForm = () => {
+  formValid = true;
+  let emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+  let birthdateRegex =
+    /(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.](19|20)\d\d/;
+  let numberRegex = /^\d+(\.\d+)?$/;
+  inputs.forEach((input) => {
+    if (input.id === "first" && input.value.length < 3) {
+      formValid = false;
+      console.log(`Veuillez renseigner au minimum 3 caractères dans prénom`);
+    }
+    if (input.id === "last" && input.value.length < 3) {
+      formValid = false;
+      console.log(`Veuillez renseigner au minimum 3 caractères dans nom`);
+    }
+    if (input.id === "email" && !emailRegex.test(input.value)) {
+      formValid = false;
+      console.log(`Attention votre adresse email n'est pas valide`);
+    }
+    if (input.id === birthdate && !birthdateRegex.test(input.value)) {
+      formValid = false;
+      console.log("Attention cette date n'est pas valide");
+    }
+    if (
+      input.id === quantity &&
+      !numberRegex.test(input.value) &&
+      input.min > 0 &&
+      input.length < 99
+    ) {
+      formValid = false;
+      console.log("Veuillez ne renseigner uniquement des chiffres de 0 a 99");
+    }
+  });
+};
+document.querySelector("form").addEventListener("submit", (e) => {
+  e.preventDefault();
+  controlForm();
+  if (!formValid) {
+    console.log("formulaire non complet");
+  } else {
+    console.log("Félicitation vous ètes inscrit");
+  }
+  e.preventDefault();
+});
