@@ -217,7 +217,7 @@ document.querySelector("form").addEventListener("submit", (e) => {
   if (!formValid) {
     console.log("formulaire non complet");
   } else {
-    console.log("Félicitation vous ètes inscrit");
+    alert("Félicitation vous ètes inscrit");
     let formData = new FormData(e.target);
 
     for (let [key, value] of formData.entries()) {
