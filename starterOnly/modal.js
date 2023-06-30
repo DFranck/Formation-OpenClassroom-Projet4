@@ -93,13 +93,24 @@ FormCloser.addEventListener("click", () => {
 const inputs = document.querySelectorAll(
   "input.text-control, input.checkbox-input"
 );
+const whatChecked = Array.from(
+  document.querySelectorAll(
+    "#location1, #location2, #location3, #location4, #location5, #location6"
+  )
+);
+
+const cgv = document.getElementById("checkbox1");
+const infosEvents = document.getElementById("checkbox2");
+
 let formValid = true;
+
 inputs.forEach((input) => {
   let emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-  let birthdateRegex =
-    /(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.](19|20)\d\d/;
-  let numberRegex = /^\d+(\.\d+)?$/;
+  let birthdateRegex = /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/;
+  let numberRegex = /^[0-9][0-9]?$/;
+
   input.addEventListener("input", (e) => {
+    let isOneChecked = whatChecked.some((checkbox) => checkbox.checked);
     console.log(`Dans ${input.id}, il est écrit ${input.value}`);
     if (input.id === "first" && input.value.length < 3) {
       formValid = false;
@@ -113,13 +124,28 @@ inputs.forEach((input) => {
       formValid = false;
       console.log(`Attention votre adresse email n'est pas valide`);
     }
-    if (input.id === birthdate && birthdateRegex.test(input.value)) {
+    if (input.id === "birthdate" && !birthdateRegex.test(input.value)) {
       formValid = false;
       console.log("Attention cette date n'est pas valide");
     }
-    if (input.id === quantity && numberRegex.test(input.value)) {
+    if (input.id === "quantity" && !numberRegex.test(input.value)) {
       formValid = false;
       console.log("Veuillez ne renseigner uniquement des chiffres de 0 a 99");
+    }
+    if (!isOneChecked) {
+      formValid = false;
+      console.log("Veuillez selection le tournoi que vous souhaitez faire");
+    } else {
+      console.log(
+        "Nous vous souhaitons bon courage pour le tournoi à " + input.value
+      );
+    }
+    if (!cgv.checked) {
+      formValid = false;
+      console.log("Veuillez accepter les CGV");
+    }
+    if (infosEvents.checked) {
+      console.log("Ok nous vous tiendrons informé des prochains évèneemnts");
     }
   });
 });
@@ -127,10 +153,11 @@ inputs.forEach((input) => {
 const controlForm = () => {
   formValid = true;
   let emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-  let birthdateRegex =
-    /(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.](19|20)\d\d/;
-  let numberRegex = /^\d+(\.\d+)?$/;
+  let birthdateRegex = /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/;
+  let numberRegex = /^[0-9][0-9]?$/;
+
   inputs.forEach((input) => {
+    let isOneChecked = whatChecked.some((checkbox) => checkbox.checked);
     if (input.id === "first" && input.value.length < 3) {
       formValid = false;
       console.log(`Veuillez renseigner au minimum 3 caractères dans prénom`);
@@ -143,18 +170,24 @@ const controlForm = () => {
       formValid = false;
       console.log(`Attention votre adresse email n'est pas valide`);
     }
-    if (input.id === birthdate && !birthdateRegex.test(input.value)) {
+    if (input.id === "birthdate" && !birthdateRegex.test(input.value)) {
       formValid = false;
       console.log("Attention cette date n'est pas valide");
     }
-    if (
-      input.id === quantity &&
-      !numberRegex.test(input.value) &&
-      input.min > 0 &&
-      input.length < 99
-    ) {
+    if (input.id === "quantity" && !numberRegex.test(input.value)) {
       formValid = false;
       console.log("Veuillez ne renseigner uniquement des chiffres de 0 a 99");
+    }
+    if (!isOneChecked) {
+      formValid = false;
+      console.log("Veuillez selection le tournoi que vous souhaitez faire");
+    }
+    if (!cgv.checked) {
+      formValid = false;
+      console.log("Veuillez accepter les CGV");
+    }
+    if (infosEvents.checked) {
+      console.log("Ok nous vous tiendrons informé des prochains évèneemnts");
     }
   });
 };
@@ -165,6 +198,11 @@ document.querySelector("form").addEventListener("submit", (e) => {
     console.log("formulaire non complet");
   } else {
     console.log("Félicitation vous ètes inscrit");
+    let formData = new FormData(e.target);
+
+    for (let [key, value] of formData.entries()) {
+      localStorage.setItem(key, value);
+    }
   }
   e.preventDefault();
 });
