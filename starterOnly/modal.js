@@ -110,64 +110,73 @@ const cgv = document.getElementById("checkbox1");
 const infosEvents = document.getElementById("checkbox2");
 
 let formValid = true;
-
+//APPEL FONCTION CHAQUE INPUT
 inputs.forEach((input) => {
+  input.addEventListener("input", (e) => {
+    checkinput(e.target);
+  });
+});
+//FONCTION CONTROLE CHAQUE INPUT
+const checkinput = (input) => {
   let emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
   let birthdateRegex = /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/;
   let numberRegex = /^[0-9][0-9]?$/;
 
-  input.addEventListener("input", (e) => {
-    let isOneChecked = whatChecked.some((checkbox) => checkbox.checked);
-    console.log(`Dans ${input.id}, il est écrit ${input.value}`);
-    if (input.id === "first" && input.value.length < 3) {
-      formValid = false;
-      firstErrorSpan.innerHTML = `<p>Veuillez renseigner au minimum 3 caractères dans prénom</p>`;
-    } else {
-      firstErrorSpan.innerHTML = ``;
-    }
-    if (input.id === "last" && input.value.length < 3) {
-      formValid = false;
-      lastErrorSpan.innerHTML = `Veuillez renseigner au minimum 3 caractères dans nom`;
-    } else {
-      lastErrorSpan.innerHTML = ``;
-    }
-    if (input.id === "email" && !emailRegex.test(input.value)) {
-      formValid = false;
-      emailErrorSpan.innerHTML = `Attention votre adresse email n'est pas valide`;
-    } else {
-      emailErrorSpan.innerHTML = ``;
-    }
-    if (input.id === "birthdate" && !birthdateRegex.test(input.value)) {
-      formValid = false;
-      birthdateErrorSpan.innerHTML = "Attention cette date n'est pas valide";
-    } else {
-      birthdateErrorSpan.innerHTML = "";
-    }
-    if (input.id === "quantity" && !numberRegex.test(input.value)) {
-      formValid = false;
-      quantityErrorSpan.innerHTML =
-        "Veuillez ne renseigner uniquement des chiffres de 0 a 99";
-    } else {
-      quantityErrorSpan.innerHTML = "";
-    }
-    if (!isOneChecked) {
-      formValid = false;
-      locationsErrorSpan.innerHTML =
-        "Veuillez selection le tournoi que vous souhaitez faire";
-    } else {
-      locationsErrorSpan.innerHTML = "";
-    }
-    if (!cgv.checked) {
-      formValid = false;
-      cgvErrorSpan.innerHTML = "Veuillez accepter les CGV";
-    } else {
-      cgvErrorSpan.innerHTML = "";
-    }
-    if (infosEvents.checked) {
-    }
-  });
-});
-
+  let isOneChecked = whatChecked.some((checkbox) => checkbox.checked);
+  console.log(`Dans ${input.id}, il est écrit ${input.value}`);
+  if (input.id === "first" && input.value.length < 3) {
+    formValid = false;
+    firstErrorSpan.innerHTML = `<p>Veuillez renseigner au minimum 3 caractères dans prénom</p>`;
+  } else if (input.id === "first" && input.value.length >= 3) {
+    firstErrorSpan.innerHTML = ``;
+  }
+  if (input.id === "last" && input.value.length < 3) {
+    formValid = false;
+    lastErrorSpan.innerHTML = `<p>Veuillez renseigner au minimum 3 caractères dans nom</p>`;
+  } else if (input.id === "last" && input.value.length >= 3) {
+    lastErrorSpan.innerHTML = ``;
+  }
+  if (input.id === "email" && !emailRegex.test(input.value)) {
+    formValid = false;
+    emailErrorSpan.innerHTML = `<p>Attention votre adresse email n'est pas valide</p>`;
+  } else if (input.id === "email" && emailRegex.test(input.value)) {
+    emailErrorSpan.innerHTML = ``;
+  }
+  if (input.id === "birthdate" && !birthdateRegex.test(input.value)) {
+    formValid = false;
+    birthdateErrorSpan.innerHTML =
+      "<p>Attention cette date n'est pas valide</p>";
+  } else if (input.id === "birthdate" && birthdateRegex.test(input.value)) {
+    birthdateErrorSpan.innerHTML = "";
+  }
+  if (input.id === "quantity" && !numberRegex.test(input.value)) {
+    formValid = false;
+    quantityErrorSpan.innerHTML =
+      "<p>Veuillez ne renseigner uniquement des chiffres de 0 a 99</p>";
+  } else if (input.id === "quantity" && numberRegex.test(input.value)) {
+    quantityErrorSpan.innerHTML = "";
+  }
+  if (!isOneChecked) {
+    formValid = false;
+    locationsErrorSpan.innerHTML =
+      "<p>Veuillez selection le tournoi que vous souhaitez faire</p>";
+  } else {
+    locationsErrorSpan.innerHTML = "";
+  }
+  if (!cgv.checked) {
+    formValid = false;
+    cgvErrorSpan.innerHTML = "<p>Veuillez accepter les CGV</p>";
+  } else {
+    cgvErrorSpan.innerHTML = "";
+  }
+  if (infosEvents.checked) {
+    infosEventsSpan.innerHTML =
+      "<p>Nous vous tiendrons informé des prochains évèneemnts</p>";
+  } else {
+    infosEventsSpan.innerHTML = "<p></p>";
+  }
+};
+//FONCTION CONTROLE LORS DE SUBMIT
 const controlForm = () => {
   formValid = true;
   let emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
@@ -178,39 +187,43 @@ const controlForm = () => {
     let isOneChecked = whatChecked.some((checkbox) => checkbox.checked);
     if (input.id === "first" && input.value.length < 3) {
       formValid = false;
-      firstErrorSpan.innerHTML = `Veuillez renseigner au minimum 3 caractères dans prénom`;
+      firstErrorSpan.innerHTML = `<p>Veuillez renseigner au minimum 3 caractères dans prénom</p>`;
     }
     if (input.id === "last" && input.value.length < 3) {
       formValid = false;
-      lastErrorSpan.innerHTML = `Veuillez renseigner au minimum 3 caractères dans nom`;
+      lastErrorSpan.innerHTML = `<p>Veuillez renseigner au minimum 3 caractères dans nom</p>`;
     }
     if (input.id === "email" && !emailRegex.test(input.value)) {
       formValid = false;
-      emailErrorSpan.innerHTML = `Attention votre adresse email n'est pas valide`;
+      emailErrorSpan.innerHTML = `<p>Attention votre adresse email n'est pas valide</p>`;
     }
     if (input.id === "birthdate" && !birthdateRegex.test(input.value)) {
       formValid = false;
-      birthdateErrorSpan.innerHTML = "Attention cette date n'est pas valide";
+      birthdateErrorSpan.innerHTML =
+        "<p>Attention cette date n'est pas valide</p>";
     }
     if (input.id === "quantity" && !numberRegex.test(input.value)) {
       formValid = false;
       quantityErrorSpan.innerHTML =
-        "Veuillez ne renseigner uniquement des chiffres de 0 a 99";
+        "<p>Veuillez ne renseigner uniquement des chiffres de 0 a 99</p>";
     }
     if (!isOneChecked) {
       formValid = false;
       locationsErrorSpan.innerHTML =
-        "Veuillez selection le tournoi que vous souhaitez faire";
+        "<p>Veuillez selection le tournoi que vous souhaitez faire</p>";
     }
     if (!cgv.checked) {
       formValid = false;
-      cgvErrorSpan.innerHTML = "Veuillez accepter les CGV";
+      cgvErrorSpan.innerHTML = "<p>Veuillez accepter les CGV</p>";
     }
     if (infosEvents.checked) {
-      console.log("Ok nous vous tiendrons informé des prochains évèneemnts");
+      infosEventsSpan.innerHTML =
+        "<p>Nous vous tiendrons informé des prochains évèneemnts</p>";
     }
   });
 };
+
+//APPEL FONCTION SUBMIT
 document.querySelector("form").addEventListener("submit", (e) => {
   e.preventDefault();
   controlForm();

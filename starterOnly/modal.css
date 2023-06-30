@@ -211,6 +211,7 @@ input {
   font-size: 20px;
   height: 48px;
 }
+
 .formData[data-error]::after {
   content: attr(data-error);
   font-size: 0.4em;
@@ -228,6 +229,20 @@ input {
 }
 .formData[data-error-visible="true"] .text-control {
   border: 2px solid #e54858;
+}
+
+.error p {
+  color: red;
+  font-size: 1rem;
+  text-align: left;
+  margin-bottom: 10px;
+}
+
+.infos-events p {
+  color: green;
+  font-size: 1rem;
+  text-align: left;
+  margin-bottom: 10px;
 }
 /* 
 input[data-error]::after {
@@ -514,9 +529,25 @@ footer {
     margin: 32px auto 10px;
     padding: 12px 35px;
   }
+  .content {
+    max-width: 90%;
+  }
+  label,
+  .text-label {
+    font-size: 0.8rem;
+  }
+  .text-control {
+    font-size: 0.8rem;
+  }
   .copyrights {
     margin-top: 50px;
     text-align: center;
+  }
+  .error p {
+    font-size: 0.8rem;
+  }
+  .infos-events p {
+    font-size: 0.8rem;
   }
 }
 

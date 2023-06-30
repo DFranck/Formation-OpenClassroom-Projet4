@@ -72,7 +72,7 @@
                   name="first"
                   minlength="2"
                 /><br>
-                <span class="first-error"></span>
+                <span class="first-error error"></span>
               </div>
               <div
               class="formData">
@@ -84,7 +84,7 @@
               name="last"
               minlength="2"
               /><br>
-              <span class="last-error"></span>
+              <span class="last-error error"></span>
             </div>
             <div
             class="formData">
@@ -95,8 +95,8 @@
             id="email"
             name="email"
             /><br>
+            <span class="email-error error"></span>
           </div>
-          <span class="email-error"></span>
           <div
           class="formData">
           <label for="birthdate">Date de naissance</label><br>
@@ -106,15 +106,15 @@
           id="birthdate"
           name="birthdate"
           /><br>
+          <span class="birthdate-error error"></span>
         </div>
-        <span class="birthdate-error"></span>
         <div
         class="formData">
         <label for="quantity">À combien de tournois GameOn avez-vous déjà participé ?</label><br>
         <input type="number" class="text-control" id="quantity" name="quantity" min="0" max="99">
+        <span class="quantity-error error"></span>
       </div>
       <p class="text-label">A quel tournoi souhaitez-vous participer cette année ?</p>
-      <span class="quantity-error"></span>
       <div
       class="formData">
       <input
@@ -124,7 +124,6 @@
       name="location"
       value="New York"
       />
-      <span class="locations-error"></span>
       <label class="checkbox-label" for="location1">
         <span class="checkbox-icon"></span>
         New York</label
@@ -145,28 +144,28 @@
           type="radio"
           id="location3"
           name="location"
-                  value="Seattle"
-                />
-                <label class="checkbox-label" for="location3">
-                  <span class="checkbox-icon"></span>
-                  Seattle</label
-                  >
-                  <input
-                  class="checkbox-input"
-                  type="radio"
-                  id="location4"
-                  name="location"
-                  value="Chicago"
-                  />
-                  <label class="checkbox-label" for="location4">
-                    <span class="checkbox-icon"></span>
-                    Chicago</label
-                    >
-                    <input
-                    class="checkbox-input"
-                  type="radio"
-                  id="location5"
-                  name="location"
+          value="Seattle"
+          />
+          <label class="checkbox-label" for="location3">
+            <span class="checkbox-icon"></span>
+            Seattle</label
+            >
+            <input
+            class="checkbox-input"
+            type="radio"
+            id="location4"
+            name="location"
+            value="Chicago"
+            />
+            <label class="checkbox-label" for="location4">
+              <span class="checkbox-icon"></span>
+              Chicago</label
+              >
+              <input
+              class="checkbox-input"
+              type="radio"
+              id="location5"
+              name="location"
                   value="Boston"
                   />
                   <label class="checkbox-label" for="location5">
@@ -183,7 +182,8 @@
                     <label class="checkbox-label" for="location6">
                       <span class="checkbox-icon"></span>
                       Portland</label
-                      >
+                      ><br>
+                      <span class="locations-error error"></span>
                     </div>
                     
                     <div
@@ -200,16 +200,15 @@
                       <span class="checkbox-icon"></span>
                       J'ai lu et accepté les conditions d'utilisation.
                     </label>
-                <br>
-                <span class="cgv-error"></span>
-                <input class="checkbox-input" type="checkbox" id="checkbox2" name="infos-event" value="Yes" />
-                
-                <label class="checkbox2-label" for="checkbox2">
-                  <span class="checkbox-icon"></span>
-                  Je Je souhaite être prévenu des prochains évènements.
-                </label>
-                <br>
-                <span class="infos-events"></span>
+                    <br>
+                    <span class="cgv-error error"></span>
+                    <input class="checkbox-input" type="checkbox" id="checkbox2" name="infos-event" />
+                    <label class="checkbox2-label" for="checkbox2">
+                      <span class="checkbox-icon"></span>
+                      Je Je souhaite être prévenu des prochains évènements.
+                    </label>
+                    <br>
+                    <span class="infos-events"></span>
               </div>
               <input
               class="btn-submit"
