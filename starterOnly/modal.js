@@ -98,7 +98,14 @@ const whatChecked = Array.from(
     "#location1, #location2, #location3, #location4, #location5, #location6"
   )
 );
-
+const firstErrorSpan = document.querySelector(".first-error");
+const lastErrorSpan = document.querySelector(".last-error");
+const emailErrorSpan = document.querySelector(".email-error");
+const birthdateErrorSpan = document.querySelector(".birthdate-error");
+const quantityErrorSpan = document.querySelector(".quantity-error");
+const locationsErrorSpan = document.querySelector(".locations-error");
+const cgvErrorSpan = document.querySelector(".cgv-error");
+const infosEventsSpan = document.querySelector(".infos-events");
 const cgv = document.getElementById("checkbox1");
 const infosEvents = document.getElementById("checkbox2");
 
@@ -114,38 +121,49 @@ inputs.forEach((input) => {
     console.log(`Dans ${input.id}, il est écrit ${input.value}`);
     if (input.id === "first" && input.value.length < 3) {
       formValid = false;
-      console.log(`Veuillez renseigner au minimum 3 caractères dans prénom`);
+      firstErrorSpan.innerHTML = `<p>Veuillez renseigner au minimum 3 caractères dans prénom</p>`;
+    } else {
+      firstErrorSpan.innerHTML = ``;
     }
     if (input.id === "last" && input.value.length < 3) {
       formValid = false;
-      console.log(`Veuillez renseigner au minimum 3 caractères dans nom`);
+      lastErrorSpan.innerHTML = `Veuillez renseigner au minimum 3 caractères dans nom`;
+    } else {
+      lastErrorSpan.innerHTML = ``;
     }
     if (input.id === "email" && !emailRegex.test(input.value)) {
       formValid = false;
-      console.log(`Attention votre adresse email n'est pas valide`);
+      emailErrorSpan.innerHTML = `Attention votre adresse email n'est pas valide`;
+    } else {
+      emailErrorSpan.innerHTML = ``;
     }
     if (input.id === "birthdate" && !birthdateRegex.test(input.value)) {
       formValid = false;
-      console.log("Attention cette date n'est pas valide");
+      birthdateErrorSpan.innerHTML = "Attention cette date n'est pas valide";
+    } else {
+      birthdateErrorSpan.innerHTML = "";
     }
     if (input.id === "quantity" && !numberRegex.test(input.value)) {
       formValid = false;
-      console.log("Veuillez ne renseigner uniquement des chiffres de 0 a 99");
+      quantityErrorSpan.innerHTML =
+        "Veuillez ne renseigner uniquement des chiffres de 0 a 99";
+    } else {
+      quantityErrorSpan.innerHTML = "";
     }
     if (!isOneChecked) {
       formValid = false;
-      console.log("Veuillez selection le tournoi que vous souhaitez faire");
+      locationsErrorSpan.innerHTML =
+        "Veuillez selection le tournoi que vous souhaitez faire";
     } else {
-      console.log(
-        "Nous vous souhaitons bon courage pour le tournoi à " + input.value
-      );
+      locationsErrorSpan.innerHTML = "";
     }
     if (!cgv.checked) {
       formValid = false;
-      console.log("Veuillez accepter les CGV");
+      cgvErrorSpan.innerHTML = "Veuillez accepter les CGV";
+    } else {
+      cgvErrorSpan.innerHTML = "";
     }
     if (infosEvents.checked) {
-      console.log("Ok nous vous tiendrons informé des prochains évèneemnts");
     }
   });
 });
@@ -160,31 +178,33 @@ const controlForm = () => {
     let isOneChecked = whatChecked.some((checkbox) => checkbox.checked);
     if (input.id === "first" && input.value.length < 3) {
       formValid = false;
-      console.log(`Veuillez renseigner au minimum 3 caractères dans prénom`);
+      firstErrorSpan.innerHTML = `Veuillez renseigner au minimum 3 caractères dans prénom`;
     }
     if (input.id === "last" && input.value.length < 3) {
       formValid = false;
-      console.log(`Veuillez renseigner au minimum 3 caractères dans nom`);
+      lastErrorSpan.innerHTML = `Veuillez renseigner au minimum 3 caractères dans nom`;
     }
     if (input.id === "email" && !emailRegex.test(input.value)) {
       formValid = false;
-      console.log(`Attention votre adresse email n'est pas valide`);
+      emailErrorSpan.innerHTML = `Attention votre adresse email n'est pas valide`;
     }
     if (input.id === "birthdate" && !birthdateRegex.test(input.value)) {
       formValid = false;
-      console.log("Attention cette date n'est pas valide");
+      birthdateErrorSpan.innerHTML = "Attention cette date n'est pas valide";
     }
     if (input.id === "quantity" && !numberRegex.test(input.value)) {
       formValid = false;
-      console.log("Veuillez ne renseigner uniquement des chiffres de 0 a 99");
+      quantityErrorSpan.innerHTML =
+        "Veuillez ne renseigner uniquement des chiffres de 0 a 99";
     }
     if (!isOneChecked) {
       formValid = false;
-      console.log("Veuillez selection le tournoi que vous souhaitez faire");
+      locationsErrorSpan.innerHTML =
+        "Veuillez selection le tournoi que vous souhaitez faire";
     }
     if (!cgv.checked) {
       formValid = false;
-      console.log("Veuillez accepter les CGV");
+      cgvErrorSpan.innerHTML = "Veuillez accepter les CGV";
     }
     if (infosEvents.checked) {
       console.log("Ok nous vous tiendrons informé des prochains évèneemnts");
