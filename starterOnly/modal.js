@@ -10,7 +10,6 @@ function editNav() {
 // DOM Elements
 const modalbg = document.querySelector(".bground");
 const modalBtn = document.querySelectorAll(".modal-btn");
-const formData = document.querySelectorAll(".formData");
 const FormCloser = document.querySelector(".close");
 //selection de tout les input de type text et checkbox
 const inputs = document.querySelectorAll(
@@ -178,12 +177,18 @@ document.querySelector("form").addEventListener("submit", (e) => {
   if (!formValid) {
     console.log("formulaire non complet");
   } else {
-    alert("Félicitation vous ètes inscrit");
-    let formData = new FormData(e.target);
-
-    for (let [key, value] of formData.entries()) {
-      localStorage.setItem(key, value);
-    }
+    document.querySelector(".submit-ok").innerHTML = `
+    <h2>Merci ! Votre réservation a été reçue.</h2>
+    `;
+    document.querySelector("form").style.display = "none";
+    document.querySelector("form").reset();
+    let intervalId = setInterval(() => {
+      modalbg.style.display = "none";
+      document.querySelector(".submit-ok").innerHTML = `
+    `;
+      document.querySelector("form").style.display = "block";
+      clearInterval(intervalId);
+    }, 3000);
   }
   e.preventDefault();
 });
