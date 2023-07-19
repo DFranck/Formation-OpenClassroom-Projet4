@@ -550,7 +550,21 @@ footer {
     font-size: 0.8rem;
   }
 }
-
+@media screen and (max-width: 500px) {
+  .hero-content {
+    min-width: auto;
+  }
+  .hero-headline {
+    font-size: 2.5rem;
+  }
+  .hero-text {
+    font-size: 1rem;
+    margin-top: 30px;
+  }
+  .hero-img img {
+    margin-top: 0px;
+  }
+}
 @keyframes modalopen {
   from {
     opacity: 0;
