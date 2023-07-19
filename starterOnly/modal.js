@@ -11,11 +11,11 @@ function editNav() {
 const modalbg = document.querySelector(".bground");
 const modalBtn = document.querySelectorAll(".modal-btn");
 const FormCloser = document.querySelector(".close");
-//selection de tout les input de type text et checkbox
+//ISSUE 2 selection de tout les input de type text et checkbox
 const inputs = document.querySelectorAll(
   "input.text-control, input.checkbox-input"
 );
-//Selection de toute les radio
+//ISSUE 2 Selection de toute les radio
 const whatChecked = Array.from(
   document.querySelectorAll(
     "#location1, #location2, #location3, #location4, #location5, #location6"
@@ -32,7 +32,7 @@ const cgvErrorSpan = document.querySelector(".cgv-error");
 const infosEventsSpan = document.querySelector(".infos-events");
 const cgv = document.getElementById("checkbox1");
 const infosEvents = document.getElementById("checkbox2");
-// variable qui dois finir sur true pour valider le formulaire
+// ISSUE 2 variable qui dois finir sur true pour valider le formulaire
 let formValid = true;
 
 // launch modal event
@@ -43,7 +43,7 @@ function launchModal() {
   modalbg.style.display = "block";
 }
 
-// Fermeture du formulaire avec la croix ".close"
+// ISSUE 1 Fermeture du formulaire avec la croix ".close"
 
 FormCloser.addEventListener("click", () => {
   modalbg.style.display = "none";
@@ -65,7 +65,7 @@ const checkinput = (input) => {
   //controle le prénom et ajoute un message si celui ci n'est pas correct
   if (input.id === "first" && input.value.length < 3) {
     formValid = false;
-    firstErrorSpan.innerHTML = `<p>Veuillez renseigner au minimum 3 caractères dans prénom</p>`;
+    firstErrorSpan.innerHTML = `<p>Veuillez renseigner 3 caractères minimum</p>`;
   } else if (input.id === "first" && input.value.length >= 3) {
     firstErrorSpan.innerHTML = ``;
   }
@@ -73,14 +73,14 @@ const checkinput = (input) => {
   //controle le nom et ajoute un message si celui ci n'est pas correct
   if (input.id === "last" && input.value.length < 3) {
     formValid = false;
-    lastErrorSpan.innerHTML = `<p>Veuillez renseigner au minimum 3 caractères dans nom</p>`;
+    lastErrorSpan.innerHTML = `<p>Veuillez renseigner 3 caractères minimum</p>`;
   } else if (input.id === "last" && input.value.length >= 3) {
     lastErrorSpan.innerHTML = ``;
   }
   //controle lemail et ajoute un message si celui ci n'est pas correct
   if (input.id === "email" && !emailRegex.test(input.value)) {
     formValid = false;
-    emailErrorSpan.innerHTML = `<p>Attention votre adresse email n'est pas valide</p>`;
+    emailErrorSpan.innerHTML = `<p>Votre adresse email n'est pas valide</p>`;
   } else if (input.id === "email" && emailRegex.test(input.value)) {
     emailErrorSpan.innerHTML = ``;
   }
@@ -95,21 +95,15 @@ const checkinput = (input) => {
   //controle le nombre de tournoi et ajoute un message si celui ci n'est pas correct
   if (input.id === "quantity" && !numberRegex.test(input.value)) {
     formValid = false;
-    quantityErrorSpan.innerHTML =
-      "<p>Veuillez ne renseigner uniquement des chiffres de 0 a 99</p>";
+    quantityErrorSpan.innerHTML = "<p>Renseigner un chiffres entre 0 et 99</p>";
   } else if (input.id === "quantity" && numberRegex.test(input.value)) {
     quantityErrorSpan.innerHTML = "";
   }
-  //controle la selection de radio et ajoute un message si celle ci n'est pas correct
-  if (!isOneChecked) {
-    formValid = false;
-    locationsErrorSpan.innerHTML =
-      "<p>Veuillez selection le tournoi que vous souhaitez faire</p>";
-  } else {
+  if (isOneChecked) {
     locationsErrorSpan.innerHTML = "";
   }
   //controle laccord des CGV et ajoute un message si celle ci n'est pas correct
-  if (!cgv.checked) {
+  else if (!cgv.checked) {
     formValid = false;
     cgvErrorSpan.innerHTML = "<p>Veuillez accepter les CGV</p>";
   } else {
@@ -118,12 +112,12 @@ const checkinput = (input) => {
   //controle si l'utilisateur souhaite recevoir des news et ajoute un message si celle ci est souhaitée
   if (infosEvents.checked) {
     infosEventsSpan.innerHTML =
-      "<p>Nous vous tiendrons informé des prochains évèneemnts</p>";
+      "<p>Nous vous tiendrons informé des prochains évènements</p>";
   } else {
     infosEventsSpan.innerHTML = "<p></p>";
   }
 };
-//FONCTION CONTROLE LORS DE SUBMIT
+//ISSUE 2 FONCTION CONTROLE LORS DE SUBMIT
 const controlForm = () => {
   formValid = true;
   let emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
@@ -134,15 +128,15 @@ const controlForm = () => {
     let isOneChecked = whatChecked.some((checkbox) => checkbox.checked);
     if (input.id === "first" && input.value.length < 3) {
       formValid = false;
-      firstErrorSpan.innerHTML = `<p>Veuillez renseigner au minimum 3 caractères dans prénom</p>`;
+      firstErrorSpan.innerHTML = `<p>Veuillez renseigner 3 caractères minimum</p>`;
     }
     if (input.id === "last" && input.value.length < 3) {
       formValid = false;
-      lastErrorSpan.innerHTML = `<p>Veuillez renseigner au minimum 3 caractères dans nom</p>`;
+      lastErrorSpan.innerHTML = `<p>Veuillez renseigner 3 caractères minimum</p>`;
     }
     if (input.id === "email" && !emailRegex.test(input.value)) {
       formValid = false;
-      emailErrorSpan.innerHTML = `<p>Attention votre adresse email n'est pas valide</p>`;
+      emailErrorSpan.innerHTML = `<p>Votre adresse email n'est pas valide</p>`;
     }
     if (input.id === "birthdate" && !birthdateRegex.test(input.value)) {
       formValid = false;
@@ -152,7 +146,7 @@ const controlForm = () => {
     if (input.id === "quantity" && !numberRegex.test(input.value)) {
       formValid = false;
       quantityErrorSpan.innerHTML =
-        "<p>Veuillez ne renseigner uniquement des chiffres de 0 a 99</p>";
+        "<p>Renseigner un chiffres entre 0 et 99</p>";
     }
     if (!isOneChecked) {
       formValid = false;
@@ -165,12 +159,12 @@ const controlForm = () => {
     }
     if (infosEvents.checked) {
       infosEventsSpan.innerHTML =
-        "<p>Nous vous tiendrons informé des prochains évèneemnts</p>";
+        "<p>Nous vous tiendrons informé des prochains évènements</p>";
     }
   });
 };
 
-//APPEL FONCTION SUBMIT
+//ISSUE 2 APPEL FONCTION SUBMIT
 document.querySelector("form").addEventListener("submit", (e) => {
   e.preventDefault();
   controlForm();
@@ -190,5 +184,4 @@ document.querySelector("form").addEventListener("submit", (e) => {
       clearInterval(intervalId);
     }, 3000);
   }
-  e.preventDefault();
 });
