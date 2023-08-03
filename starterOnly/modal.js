@@ -16,13 +16,14 @@ const inputs = document.querySelectorAll(
   "input.text-control, input.checkbox-input"
 );
 //selection des spans pour les messages derreurs
-const firstErrorSpan = document.querySelector(".first-error");
-const lastErrorSpan = document.querySelector(".last-error");
-const emailErrorSpan = document.querySelector(".email-error");
-const birthdateErrorSpan = document.querySelector(".birthdate-error");
-const quantityErrorSpan = document.querySelector(".quantity-error");
-const locationsErrorSpan = document.querySelector(".locations-error");
-const cgvErrorSpan = document.querySelector(".cgv-error");
+
+// const firstErrorSpan = document.querySelector(".last-error");
+// const lastErrorSpan = document.querySelector(".last-error");
+// const emailErrorSpan = document.querySelector(".email-error");
+// const birthdateErrorSpan = document.querySelector(".birthdate-error");
+// const quantityErrorSpan = document.querySelector(".quantity-error");
+// const locationsErrorSpan = document.querySelector(".locations-error");
+// const cgvErrorSpan = document.querySelector(".cgv-error");
 const infosEventsSpan = document.querySelector(".infos-events");
 const cgv = document.getElementById("checkbox1");
 const infosEvents = document.getElementById("checkbox2");
@@ -37,7 +38,7 @@ const whatChecked = Array.from(
     "#location1, #location2, #location3, #location4, #location5, #location6"
   )
 );
-let isOneRadioChecked = whatChecked.some((checkbox) => checkbox.checked);
+
 // launch modal event
 modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
 // launch modal form
@@ -55,60 +56,66 @@ FormCloser.addEventListener("click", () => {
 //=====================================================
 
 const inputValid = () => {
+  let isOneRadioChecked = whatChecked.some((checkbox) => checkbox.checked);
   inputs.forEach((input) => {
-    if (input.id === "first" && input.value.trim().length < 3) {
+    let errorSpan = document.querySelector(
+      `span[data-for-input="${input.id}"]`
+    );
+    if (
+      input.id === "firstName" &&
+      (input.value.length < 3 || input.value.includes(" "))
+    ) {
       formValid = false;
-      firstErrorSpan.innerHTML = `<p>Veuillez renseigner 3 caractères minimum</p>`;
-    } else if (input.id === "first" && input.value.length >= 3) {
-      firstErrorSpan.innerHTML = ``;
+      errorSpan.innerHTML = `<p>Veuillez renseigner 3 caractères minimum</p>`;
+    } else if (input.id === "firstName" && input.value.trim().length >= 3) {
+      errorSpan.innerHTML = ``;
     }
-    //controle le nom et ajoute un message si celui ci n'est pas correct
-    if (input.id === "last" && input.value.length < 3) {
+    if (input.id === "lastName" && input.value.trim().length < 3) {
       formValid = false;
-      lastErrorSpan.innerHTML = `<p>Veuillez renseigner 3 caractères minimum</p>`;
-    } else if (input.id === "last" && input.value.length >= 3) {
-      lastErrorSpan.innerHTML = ``;
+      errorSpan.innerHTML = `<p>Veuillez renseigner 3 caractères minimum</p>`;
+    } else if (input.id === "lastName" && input.value.trim().length >= 3) {
+      errorSpan.innerHTML = ``;
     }
     //controle lemail et ajoute un message si celui ci n'est pas correct
     if (input.id === "email" && !emailRegex.test(input.value)) {
       formValid = false;
-      emailErrorSpan.innerHTML = `<p>Votre adresse email n'est pas valide</p>`;
+      errorSpan.innerHTML = `<p>Votre adresse email n'est pas valide</p>`;
     } else if (input.id === "email" && emailRegex.test(input.value)) {
-      emailErrorSpan.innerHTML = ``;
+      errorSpan.innerHTML = ``;
     }
     //controle la date de naissance et ajoute un message si celle ci n'est pas correct
     if (input.id === "birthdate" && !birthdateRegex.test(input.value)) {
       formValid = false;
-      birthdateErrorSpan.innerHTML =
-        "<p>Attention cette date n'est pas valide</p>";
+      errorSpan.innerHTML = "<p>Attention cette date n'est pas valide</p>";
     } else if (input.id === "birthdate" && birthdateRegex.test(input.value)) {
-      birthdateErrorSpan.innerHTML = "";
+      errorSpan.innerHTML = "";
     }
     //controle le nombre de tournoi et ajoute un message si celui ci n'est pas correct
     if (input.id === "quantity" && !numberRegex.test(input.value)) {
       formValid = false;
-      quantityErrorSpan.innerHTML =
-        "<p>Renseigner un chiffres entre 0 et 99</p>";
+      errorSpan.innerHTML = "<p>Renseigner un chiffres entre 0 et 99</p>";
     } else if (input.id === "quantity" && numberRegex.test(input.value)) {
-      quantityErrorSpan.innerHTML = "";
+      errorSpan.innerHTML = "<p></p>";
     }
 
     if (!isOneRadioChecked) {
-      locationsErrorSpan.innerHTML = "test";
+      errorSpan.innerHTML = "test";
+    } else {
+      errorSpan.innerHTML = "<p></p>";
     }
     //controle laccord des CGV et ajoute un message si celle ci n'est pas correct
-    else if (cgv.checked) {
+    if (!cgv.checked) {
       formValid = false;
-      cgvErrorSpan.innerHTML = "<p>Veuillez accepter les CGV</p>";
+      errorSpan.innerHTML = "<p>Veuillez accepter les CGV</p>";
     } else {
-      cgvErrorSpan.innerHTML = "";
+      errorSpan.innerHTML = "<p></p>";
     }
     //controle si l'utilisateur souhaite recevoir des news et ajoute un message si celle ci est souhaitée
     if (infosEvents.checked) {
       infosEventsSpan.innerHTML =
         "<p>Nous vous tiendrons informé des prochains évènements</p>";
     } else {
-      infosEventsSpan.innerHTML = "";
+      infosEventsSpan.innerHTML = "<p></p>";
     }
   });
 };
