@@ -237,7 +237,7 @@ input {
   color: red;
   font-size: 1rem;
   text-align: left;
-  margin-bottom: 5px;
+  /* margin-bottom: 5px; */
 }
 .infos-events {
   opacity: 0;

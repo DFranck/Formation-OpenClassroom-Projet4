@@ -7,28 +7,32 @@ function editNav() {
   }
 }
 
-// DOM Elements
 const modalbg = document.querySelector(".bground");
 const modalBtn = document.querySelectorAll(".modal-btn");
-const FormCloser = document.querySelector(".close");
-let emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-let birthdateRegex = /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/;
-let numberRegex = /^[0-9][0-9]?$/;
-//ISSUE 2 selection de tout les input de type text et checkbox
+const modalBtnCloser = document.querySelector(".close");
+const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+const birthdateRegex = /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/;
+const numberRegex = /^[0-9][0-9]?$/;
+let formValid = false;
+let firstNameOk = false;
+let lastNameOk = false;
+let emailOk = false;
+let birthdateOk = false;
+let tournamentQuantityOk = false;
+let tournamentSelectOk = false;
+let cgvOk = true;
 const inputs = document.querySelectorAll(
   "input.text-control, input.checkbox-input"
 );
-//ISSUE 2 Selection de toute les radio
-const whatChecked = Array.from(
+const TournamentArray = Array.from(
   document.querySelectorAll(
     "#location1, #location2, #location3, #location4, #location5, #location6"
   )
 );
-//Messages derreurs
-const firstErrorSpan = document.querySelector(".first-error");
-firstErrorSpan.innerHTML = `<p>Veuillez renseigner 3 caractères minimum</p>`;
-const lastErrorSpan = document.querySelector(".last-error");
-lastErrorSpan.innerHTML = `<p>Veuillez renseigner 3 caractères minimum</p>`;
+const firstNameErrorSpan = document.querySelector(".first-error");
+firstNameErrorSpan.innerHTML = `<p>Veuillez renseigner 3 caractères minimum</p>`;
+const lastNameErrorSpan = document.querySelector(".last-error");
+lastNameErrorSpan.innerHTML = `<p>Veuillez renseigner 3 caractères minimum</p>`;
 const emailErrorSpan = document.querySelector(".email-error");
 emailErrorSpan.innerHTML = `<p>Votre adresse email n'est pas valide</p>`;
 const birthdateErrorSpan = document.querySelector(".birthdate-error");
@@ -36,7 +40,7 @@ birthdateErrorSpan.innerHTML = "<p>Attention cette date n'est pas valide</p>";
 const quantityErrorSpan = document.querySelector(".quantity-error");
 quantityErrorSpan.innerHTML = "<p>Renseigner un chiffres entre 0 et 99</p>";
 const locationsErrorSpan = document.querySelector(".locations-error");
-locationsErrorSpan.innerHTML = "<p>Choisissez votre tournois</p>";
+locationsErrorSpan.innerHTML = "<p>Choisissez votre tournoi</p>";
 const cgvErrorSpan = document.querySelector(".cgv-error");
 cgvErrorSpan.innerHTML = "<p>Veuillez accepter les CGV</p>";
 const infosEventsSpan = document.querySelector(".infos-events");
@@ -44,56 +48,44 @@ infosEventsSpan.innerHTML =
   "<p>Nous vous tiendrons informé des prochains évènements</p>";
 const cgv = document.getElementById("checkbox1");
 const infosEvents = document.getElementById("checkbox2");
-// ISSUE 2 variable qui dois finir sur true pour valider le formulaire
-let formValid = false;
-let firstNameOk = false;
-let lastNameOk = false;
-let emailOk = false;
-let birthdateOk = false;
-let quantityOk = false;
-let tournamentOk = false;
-let cgvOk = true;
-// launch modal event
-modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
 
-// launch modal form
+modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
 function launchModal() {
   modalbg.style.display = "block";
 }
-
-// ISSUE 1 Fermeture du formulaire avec la croix ".close"
-
-FormCloser.addEventListener("click", () => {
+modalBtnCloser.addEventListener("click", () => {
   modalbg.style.display = "none";
 });
 
 inputs.forEach((input) => {
   input.addEventListener("input", (e) => {
-    checkinput(e.target);
+    inputControl(e.target);
   });
 });
 
-const checkinput = (input) => {
-  let isOneChecked = whatChecked.some((checkbox) => checkbox.checked);
+const inputControl = (input) => {
+  let isOneTournamentChecked = TournamentArray.some(
+    (checkbox) => checkbox.checked
+  );
   if (
     input.id === "first" &&
     (input.value.length < 3 || input.value.includes(" "))
   ) {
     firstNameOk = false;
-    firstErrorSpan.style.opacity = 1;
+    firstNameErrorSpan.style.opacity = 1;
   } else if (input.id === "first") {
     firstNameOk = true;
-    firstErrorSpan.style.opacity = 0;
+    firstNameErrorSpan.style.opacity = 0;
   }
   if (
     input.id === "last" &&
     (input.value.length < 3 || input.value.includes(" "))
   ) {
     lastNameOk = false;
-    lastErrorSpan.style.opacity = 1;
+    lastNameErrorSpan.style.opacity = 1;
   } else if (input.id === "last") {
     lastNameOk = true;
-    lastErrorSpan.style.opacity = 0;
+    lastNameErrorSpan.style.opacity = 0;
   }
   if (input.id === "email" && !emailRegex.test(input.value)) {
     emailOk = false;
@@ -110,17 +102,17 @@ const checkinput = (input) => {
     birthdateErrorSpan.style.opacity = 0;
   }
   if (input.id === "quantity" && !numberRegex.test(input.value)) {
-    quantityOk = false;
+    tournamentQuantityOk = false;
     quantityErrorSpan.style.opacity = 1;
   } else if (input.id === "quantity" && numberRegex.test(input.value)) {
-    quantityOk = true;
+    tournamentQuantityOk = true;
     quantityErrorSpan.style.opacity = 0;
   }
-  if (!isOneChecked) {
+  if (!isOneTournamentChecked) {
     locationsErrorSpan.style.opacity = 1;
-    tournamentOk = false;
-  } else if (isOneChecked) {
-    tournamentOk = true;
+    tournamentSelectOk = false;
+  } else if (isOneTournamentChecked) {
+    tournamentSelectOk = true;
     locationsErrorSpan.style.opacity = 0;
   }
   if (!cgv.checked) {
@@ -137,15 +129,14 @@ const checkinput = (input) => {
   }
 };
 
-//ISSUE 2 FONCTION CONTROLE LORS DE SUBMIT
-const controlForm = () => {
+const FormControl = () => {
   if (
     firstNameOk &&
     lastNameOk &&
     emailOk &&
     birthdateOk &&
-    quantityOk &&
-    tournamentOk &&
+    tournamentQuantityOk &&
+    tournamentSelectOk &&
     cgvOk
   ) {
     formValid = true;
@@ -153,10 +144,10 @@ const controlForm = () => {
     formValid = false;
   }
   if (!firstNameOk) {
-    firstErrorSpan.style.opacity = 1;
+    firstNameErrorSpan.style.opacity = 1;
   }
   if (!lastNameOk) {
-    lastErrorSpan.style.opacity = 1;
+    lastNameErrorSpan.style.opacity = 1;
   }
   if (!emailOk) {
     emailErrorSpan.style.opacity = 1;
@@ -164,10 +155,10 @@ const controlForm = () => {
   if (!birthdateOk) {
     birthdateErrorSpan.style.opacity = 1;
   }
-  if (!quantityOk) {
+  if (!tournamentQuantityOk) {
     quantityErrorSpan.style.opacity = 1;
   }
-  if (!tournamentOk) {
+  if (!tournamentSelectOk) {
     locationsErrorSpan.style.opacity = 1;
   }
   if (!cgvOk) {
@@ -177,12 +168,12 @@ const controlForm = () => {
 //ISSUE 2 APPEL FONCTION SUBMIT
 document.querySelector("form").addEventListener("submit", (e) => {
   e.preventDefault();
-  controlForm();
+  FormControl();
   if (!formValid) {
     console.log("formulaire non complet");
   } else {
     document.querySelector(".submit-ok").innerHTML = `
-    <h2>Merci ! Votre réservation a été reçue.</h2>
+    <p>Merci ! Votre réservation a été reçue.</p>
     `;
     document.querySelector("form").style.display = "none";
     document.querySelector("form").reset();
@@ -190,8 +181,8 @@ document.querySelector("form").addEventListener("submit", (e) => {
     lastNameOk = false;
     emailOk = false;
     birthdateOk = false;
-    quantityOk = false;
-    tournamentOk = false;
+    tournamentQuantityOk = false;
+    tournamentSelectOk = false;
     let intervalId = setInterval(() => {
       modalbg.style.display = "none";
       document.querySelector(".submit-ok").innerHTML = `
