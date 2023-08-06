@@ -230,14 +230,18 @@ input {
 .formData[data-error-visible="true"] .text-control {
   border: 2px solid #e54858;
 }
-
+.error {
+  opacity: 0;
+}
 .error p {
   color: red;
   font-size: 1rem;
   text-align: left;
   margin-bottom: 10px;
 }
-
+.infos-events {
+  opacity: 0;
+}
 .infos-events p {
   color: green;
   font-size: 1rem;
