@@ -13,6 +13,8 @@ const modalBtnCloser = document.querySelector(".close");
 const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 const birthdateRegex = /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/;
 const numberRegex = /^[0-9][0-9]?$/;
+const cgv = document.getElementById("checkbox1");
+const infosEvents = document.getElementById("checkbox2");
 let formValid = false;
 let firstNameOk = false;
 let lastNameOk = false;
@@ -30,24 +32,13 @@ const TournamentArray = Array.from(
   )
 );
 const firstNameErrorSpan = document.querySelector(".first-error");
-firstNameErrorSpan.innerHTML = `<p>Veuillez renseigner 3 caractères minimum</p>`;
 const lastNameErrorSpan = document.querySelector(".last-error");
-lastNameErrorSpan.innerHTML = `<p>Veuillez renseigner 3 caractères minimum</p>`;
 const emailErrorSpan = document.querySelector(".email-error");
-emailErrorSpan.innerHTML = `<p>Votre adresse email n'est pas valide</p>`;
 const birthdateErrorSpan = document.querySelector(".birthdate-error");
-birthdateErrorSpan.innerHTML = "<p>Attention cette date n'est pas valide</p>";
 const quantityErrorSpan = document.querySelector(".quantity-error");
-quantityErrorSpan.innerHTML = "<p>Renseigner un chiffres entre 0 et 99</p>";
 const locationsErrorSpan = document.querySelector(".locations-error");
-locationsErrorSpan.innerHTML = "<p>Choisissez votre tournoi</p>";
 const cgvErrorSpan = document.querySelector(".cgv-error");
-cgvErrorSpan.innerHTML = "<p>Veuillez accepter les CGV</p>";
 const infosEventsSpan = document.querySelector(".infos-events");
-infosEventsSpan.innerHTML =
-  "<p>Nous vous tiendrons informé des prochains évènements</p>";
-const cgv = document.getElementById("checkbox1");
-const infosEvents = document.getElementById("checkbox2");
 
 modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
 function launchModal() {
