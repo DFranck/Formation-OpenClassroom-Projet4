@@ -18,6 +18,7 @@ const infosEvents = document.getElementById("checkbox2");
 const inputs = document.querySelectorAll(
   "input.text-control, input.checkbox-input"
 );
+//selection radios en tableau pour pouvoir utilisé some() afin de checker si l'une des radio est checked ou non
 const TournamentArray = Array.from(
   document.querySelectorAll(
     "#location1, #location2, #location3, #location4, #location5, #location6"
@@ -84,17 +85,14 @@ const onSubmitControl = () => {
   quantityErrorSpan.style.opacity = isTournamentQuantityOk ? 0 : 1;
   locationsErrorSpan.style.opacity = isTournamentSelectOk ? 0 : 1;
   cgvErrorSpan.style.opacity = isCgvOk ? 0 : 1;
-  if (
-    (isFormValid =
-      isFirstNameOk &&
-      isLastNameOk &&
-      isEmailOk &&
-      isBirthdateOk &&
-      isTournamentQuantityOk &&
-      isTournamentSelectOk &&
-      isCgvOk)
-  )
-    submitForm();
+  isFormValid =
+    isFirstNameOk &&
+    isLastNameOk &&
+    isEmailOk &&
+    isBirthdateOk &&
+    isTournamentQuantityOk &&
+    isTournamentSelectOk &&
+    isCgvOk;
 };
 
 const submitForm = () => {
@@ -120,21 +118,24 @@ const submitForm = () => {
 };
 
 //Events
+//ouverture du formulaire
 modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
 function launchModal() {
   modalbg.style.display = "block";
 }
+//fermeture du formulaire
 modalBtnCloser.addEventListener("click", () => {
   modalbg.style.display = "none";
 });
-
+//controle des input individuellement
 inputs.forEach((input) => {
   input.addEventListener("input", (e) => {
     inputControl(e.target);
   });
 });
-
+//controle + submit form
 document.querySelector("form").addEventListener("submit", (e) => {
   e.preventDefault();
   onSubmitControl();
+  if (isFormValid) submitForm();
 });
