@@ -22,7 +22,7 @@ let emailOk = false;
 let birthdateOk = false;
 let tournamentQuantityOk = false;
 let tournamentSelectOk = false;
-let cgvOk = true;
+let cgvOk = false;
 const inputs = document.querySelectorAll(
   "input.text-control, input.checkbox-input"
 );
@@ -55,85 +55,49 @@ inputs.forEach((input) => {
 });
 
 const inputControl = (input) => {
+  if (input.id === "firstName") {
+    firstNameOk = input.value.replaceAll(" ", "").length >= 3;
+    firstNameErrorSpan.style.opacity = firstNameOk ? 0 : 1;
+  }
+  if (input.id === "lastName") {
+    lastNameOk = input.value.replaceAll(" ", "").length >= 3;
+    lastNameErrorSpan.style.opacity = lastNameOk ? 0 : 1;
+  }
+  if (input.id === "email") {
+    emailOk = emailRegex.test(input.value);
+    emailErrorSpan.style.opacity = emailOk ? 0 : 1;
+  }
+  if (input.id === "birthdate") {
+    birthdateOk = birthdateRegex.test(input.value);
+    birthdateErrorSpan.style.opacity = birthdateOk ? 0 : 1;
+  }
+  if (input.id === "quantity") {
+    tournamentQuantityOk = numberRegex.test(input.value);
+    quantityErrorSpan.style.opacity = tournamentQuantityOk ? 0 : 1;
+  }
   let isOneTournamentChecked = TournamentArray.some(
     (checkbox) => checkbox.checked
   );
-  if (
-    input.id === "first" &&
-    (input.value.length < 3 || input.value.includes(" "))
-  ) {
-    firstNameOk = false;
-    firstNameErrorSpan.style.opacity = 1;
-  } else if (input.id === "first") {
-    firstNameOk = true;
-    firstNameErrorSpan.style.opacity = 0;
+  if (isOneTournamentChecked) {
+    tournamentSelectOk = isOneTournamentChecked ? true : false;
+    locationsErrorSpan.style.opacity = tournamentSelectOk ? 0 : 1;
   }
-  if (
-    input.id === "last" &&
-    (input.value.length < 3 || input.value.includes(" "))
-  ) {
-    lastNameOk = false;
-    lastNameErrorSpan.style.opacity = 1;
-  } else if (input.id === "last") {
-    lastNameOk = true;
-    lastNameErrorSpan.style.opacity = 0;
+  if (input.id === "checkbox1") {
+    cgvOk = cgv.checked;
+    cgvErrorSpan.style.opacity = cgvOk ? 0 : 1;
   }
-  if (input.id === "email" && !emailRegex.test(input.value)) {
-    emailOk = false;
-    emailErrorSpan.style.opacity = 1;
-  } else if (input.id === "email") {
-    emailOk = true;
-    emailErrorSpan.style.opacity = 0;
-  }
-  if (input.id === "birthdate" && !birthdateRegex.test(input.value)) {
-    birthdateOk = false;
-    birthdateErrorSpan.style.opacity = 1;
-  } else if (input.id === "birthdate") {
-    birthdateOk = true;
-    birthdateErrorSpan.style.opacity = 0;
-  }
-  if (input.id === "quantity" && !numberRegex.test(input.value)) {
-    tournamentQuantityOk = false;
-    quantityErrorSpan.style.opacity = 1;
-  } else if (input.id === "quantity" && numberRegex.test(input.value)) {
-    tournamentQuantityOk = true;
-    quantityErrorSpan.style.opacity = 0;
-  }
-  if (!isOneTournamentChecked) {
-    locationsErrorSpan.style.opacity = 1;
-    tournamentSelectOk = false;
-  } else if (isOneTournamentChecked) {
-    tournamentSelectOk = true;
-    locationsErrorSpan.style.opacity = 0;
-  }
-  if (!cgv.checked) {
-    cgvOk = false;
-    cgvErrorSpan.style.opacity = 1;
-  } else {
-    cgvOk = true;
-    cgvErrorSpan.style.opacity = 0;
-  }
-  if (infosEvents.checked) {
-    infosEventsSpan.style.opacity = 1;
-  } else {
-    infosEventsSpan.style.opacity = 0;
-  }
+  infosEventsSpan.style.opacity = infosEvents.checked ? 1 : 0;
 };
 
-const FormControl = () => {
-  if (
+const onSubmitControl = () => {
+  formValid =
     firstNameOk &&
     lastNameOk &&
     emailOk &&
     birthdateOk &&
     tournamentQuantityOk &&
     tournamentSelectOk &&
-    cgvOk
-  ) {
-    formValid = true;
-  } else {
-    formValid = false;
-  }
+    cgvOk;
   if (!firstNameOk) {
     firstNameErrorSpan.style.opacity = 1;
   }
@@ -159,9 +123,8 @@ const FormControl = () => {
 //ISSUE 2 APPEL FONCTION SUBMIT
 document.querySelector("form").addEventListener("submit", (e) => {
   e.preventDefault();
-  FormControl();
+  onSubmitControl();
   if (!formValid) {
-    console.log("formulaire non complet");
   } else {
     document.querySelector(".submit-ok").innerHTML = `
     <p>Merci ! Votre réservation a été reçue.</p>
