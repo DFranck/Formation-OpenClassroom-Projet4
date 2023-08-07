@@ -90,59 +90,49 @@ const inputControl = (input) => {
 };
 
 const onSubmitControl = () => {
-  formValid =
-    firstNameOk &&
-    lastNameOk &&
-    emailOk &&
-    birthdateOk &&
-    tournamentQuantityOk &&
-    tournamentSelectOk &&
-    cgvOk;
-  if (!firstNameOk) {
-    firstNameErrorSpan.style.opacity = 1;
-  }
-  if (!lastNameOk) {
-    lastNameErrorSpan.style.opacity = 1;
-  }
-  if (!emailOk) {
-    emailErrorSpan.style.opacity = 1;
-  }
-  if (!birthdateOk) {
-    birthdateErrorSpan.style.opacity = 1;
-  }
-  if (!tournamentQuantityOk) {
-    quantityErrorSpan.style.opacity = 1;
-  }
-  if (!tournamentSelectOk) {
-    locationsErrorSpan.style.opacity = 1;
-  }
-  if (!cgvOk) {
-    cgvErrorSpan.style.opacity = 1;
-  }
+  firstNameErrorSpan.style.opacity = firstNameOk ? 0 : 1;
+  lastNameErrorSpan.style.opacity = lastNameOk ? 0 : 1;
+  emailErrorSpan.style.opacity = emailOk ? 0 : 1;
+  birthdateErrorSpan.style.opacity = birthdateOk ? 0 : 1;
+  quantityErrorSpan.style.opacity = tournamentQuantityOk ? 0 : 1;
+  locationsErrorSpan.style.opacity = tournamentSelectOk ? 0 : 1;
+  cgvErrorSpan.style.opacity = cgvOk ? 0 : 1;
+  if (
+    (formValid =
+      firstNameOk &&
+      lastNameOk &&
+      emailOk &&
+      birthdateOk &&
+      tournamentQuantityOk &&
+      tournamentSelectOk &&
+      cgvOk)
+  )
+    submitForm();
+};
+
+const submitForm = () => {
+  document.querySelector(".submit-ok").innerHTML = `
+  <p>Merci ! Votre réservation a été reçue.</p>
+  `;
+  document.querySelector("form").style.display = "none";
+  document.querySelector("form").reset();
+  firstNameOk = false;
+  lastNameOk = false;
+  emailOk = false;
+  birthdateOk = false;
+  tournamentQuantityOk = false;
+  tournamentSelectOk = false;
+  cgvOk = false;
+  let intervalId = setInterval(() => {
+    modalbg.style.display = "none";
+    document.querySelector(".submit-ok").innerHTML = `
+  `;
+    document.querySelector("form").style.display = "block";
+    clearInterval(intervalId);
+  }, 3000);
 };
 //ISSUE 2 APPEL FONCTION SUBMIT
 document.querySelector("form").addEventListener("submit", (e) => {
   e.preventDefault();
   onSubmitControl();
-  if (!formValid) {
-  } else {
-    document.querySelector(".submit-ok").innerHTML = `
-    <p>Merci ! Votre réservation a été reçue.</p>
-    `;
-    document.querySelector("form").style.display = "none";
-    document.querySelector("form").reset();
-    firstNameOk = false;
-    lastNameOk = false;
-    emailOk = false;
-    birthdateOk = false;
-    tournamentQuantityOk = false;
-    tournamentSelectOk = false;
-    let intervalId = setInterval(() => {
-      modalbg.style.display = "none";
-      document.querySelector(".submit-ok").innerHTML = `
-    `;
-      document.querySelector("form").style.display = "block";
-      clearInterval(intervalId);
-    }, 3000);
-  }
 });
